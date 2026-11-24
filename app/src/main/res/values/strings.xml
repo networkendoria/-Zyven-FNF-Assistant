@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Zyven FNF Assistant</string>
-    <string name="accessibility_description">Zyven FNF Assistant test dokunuslarini kullanici istegiyle uygular.</string>
+    <string name="accessibility_description">Yalnızca kullanıcı otomatik dokunmayı açtığında FNF nota şeritlerine dokunur. Pencere içeriğini okumaz.</string>
+    <string name="accessibility_service_label">Zyven FNF otomatik dokunma</string>
 </resources>
