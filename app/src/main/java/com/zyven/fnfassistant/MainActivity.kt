@@ -28,17 +28,15 @@ class MainActivity : Activity() {
             setTextColor(-1); gravity = Gravity.CENTER
         })
         root.addView(TextView(this).apply {
-            text = "Android için kişisel FNF yardımcı prototipi\n\n" +
-                "Bu ilk sürüm yüzen kontrol balonunu, ekran yakalama iznini ve erişilebilirlik üzerinden test dokunuşlarını kurar. " +
-                "Nota tanıma ve otomatik oynatma henüz etkin değildir; yanlış dokunuş yapmaması için otomatik mod kapalıdır."
+            text = "Sürüm 0.1.1 — temel kurulum testi\n\n" +
+                "Bu sürüm yüzen kontrol balonunu ve kullanıcı onayıyla ekran yakalamayı test eder. " +
+                "Play Protect kurulum engelini azaltmak için Erişilebilirlik/dokunma servisi bu sürümden çıkarıldı. " +
+                "Otomatik nota tanıma ve otomatik dokunma henüz bulunmuyor."
             textSize = 15f; setTextColor(0xFFD2CEDA.toInt()); gravity = Gravity.CENTER
             setPadding(0, 22, 0, 22)
         })
         addAction(root, "Yüzen pencere iznini ver") {
             startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
-        }
-        addAction(root, "Dokunma hizmetini etkinleştir") {
-            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
         }
         addAction(root, "Ekran yakalamayı başlat") {
             val manager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
