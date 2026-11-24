@@ -18,35 +18,31 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val root = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            gravity = Gravity.CENTER
-            setPadding(28, 32, 28, 32)
-            setBackgroundColor(0xFF111018.toInt())
+            orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER
+            setPadding(28, 32, 28, 32); setBackgroundColor(0xFF111018.toInt())
         }
         root.addView(TextView(this).apply {
-            text = "ZYVEN FNF ASSISTANT"; textSize = 23f
-            setTextColor(-1); gravity = Gravity.CENTER
+            text = "ZYVEN FNF ASSISTANT"; textSize = 23f; setTextColor(-1); gravity = Gravity.CENTER
         })
         root.addView(TextView(this).apply {
-            text = "Sürüm 0.1.1 — temel kurulum testi\n\n" +
-                "Bu sürüm yüzen kontrol balonunu ve kullanıcı onayıyla ekran yakalamayı test eder. " +
-                "Play Protect kurulum engelini azaltmak için Erişilebilirlik/dokunma servisi bu sürümden çıkarıldı. " +
-                "Otomatik nota tanıma ve otomatik dokunma henüz bulunmuyor."
-            textSize = 15f; setTextColor(0xFFD2CEDA.toInt()); gravity = Gravity.CENTER
-            setPadding(0, 22, 0, 22)
+            text = "Sürüm 0.2.0\nDeneysel dört şeritli nota algılama. Otomatik mod varsayılan olarak kapalıdır. Algılama oyun düzenine göre kalibrasyon gerektirir."
+            textSize = 15f; setTextColor(0xFFD2CEDA.toInt()); gravity = Gravity.CENTER; setPadding(0, 22, 0, 22)
         })
         addAction(root, "Yüzen pencere iznini ver") {
             startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
         }
+        addAction(root, "Dokunma erişilebilirliğini aç") { startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) }
         addAction(root, "Ekran yakalamayı başlat") {
             val manager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
             startActivityForResult(manager.createScreenCaptureIntent(), captureRequest)
         }
+        addAction(root, "Algılamayı aç / kapat") { AutoPlayEngine.enabled = !AutoPlayEngine.enabled }
         addAction(root, "Kontrol balonunu aç") {
             if (Settings.canDrawOverlays(this)) startService(Intent(this, BubbleService::class.java))
             else startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
         }
         addAction(root, "Balonu kapat") { stopService(Intent(this, BubbleService::class.java)) }
+        addAction(root, "Ekran analizini durdur") { stopService(Intent(this, CaptureService::class.java)) }
         setContentView(root)
     }
     private fun addAction(root: LinearLayout, label: String, action: () -> Unit) {
