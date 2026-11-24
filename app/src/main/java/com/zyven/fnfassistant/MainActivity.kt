@@ -25,7 +25,7 @@ class MainActivity : Activity() {
             text = "ZYVEN FNF ASSISTANT"; textSize = 23f; setTextColor(-1); gravity = Gravity.CENTER
         })
         root.addView(TextView(this).apply {
-            text = "Sürüm 0.2.0\nDeneysel dört şeritli nota algılama. Otomatik mod varsayılan olarak kapalıdır. Algılama oyun düzenine göre kalibrasyon gerektirir."
+            text = "Sürüm 0.2.1\nDeneysel dört şeritli nota algılama. Otomatik mod varsayılan olarak kapalıdır. Algılama oyun düzenine göre kalibrasyon gerektirir."
             textSize = 15f; setTextColor(0xFFD2CEDA.toInt()); gravity = Gravity.CENTER; setPadding(0, 22, 0, 22)
         })
         addAction(root, "Yüzen pencere iznini ver") {
