@@ -35,7 +35,7 @@ class MainActivity : Activity() {
             gravity = Gravity.CENTER
         })
         root.addView(TextView(this).apply {
-            text = "Sürüm 0.3.1 — deneysel nota algılama"
+            text = "Sürüm 0.3.2 — oyuncu şeridi algılama"
             textSize = 15f
             setTextColor(0xFFD2CEDA.toInt())
             gravity = Gravity.CENTER
@@ -64,7 +64,7 @@ class MainActivity : Activity() {
         }
         root.addView(selector)
         root.addView(TextView(this).apply {
-            text = "Ekran yakalama açıldığında dört şeritte renkli nota adayları taranır. Algılama deneyseldir; otomatik dokunma kapalıdır."
+            text = "Yüklediğin gameplay kaydındaki oyuncu tarafı dört nota şeridine göre tarama yapılır. Algılama deneyseldir; otomatik dokunma kapalıdır."
             textSize = 12f
             setTextColor(0xFFBDB5C7.toInt())
             setPadding(0, 8, 0, 18)
