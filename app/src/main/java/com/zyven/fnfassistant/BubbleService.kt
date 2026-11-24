@@ -13,7 +13,6 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 
 class BubbleService : Service() {
     private lateinit var wm: WindowManager
@@ -66,20 +65,9 @@ class BubbleService : Service() {
             gravity=Gravity.CENTER; setPadding(4,4,4,12)
         })
         box.addView(TextView(this).apply {
-            text="İlk sürüm: kontrol ve yakalama testi. Otomatik nota tanıma henüz yok."
+            text="Kurulum testi başarılıysa sonraki sürümde güvenli dokunma altyapısı eklenecek."
             textSize=12f; setTextColor(0xFFD0C8DA.toInt())
         })
-        listOf("SOL","AŞAĞI","YUKARI","SAĞ").forEachIndexed { i, label ->
-            box.addView(Button(this).apply {
-                text="$label • test dokunuşu"
-                setOnClickListener {
-                    val x=listOf(.20f,.40f,.60f,.80f)[i]
-                    val service=TapAccessibilityService.instance
-                    if (service==null) Toast.makeText(this@BubbleService,"Önce Erişilebilirlik hizmetini etkinleştir",Toast.LENGTH_SHORT).show()
-                    else { service.tapNormalized(x,.88f); Toast.makeText(this@BubbleService,"$label test dokunuşu gönderildi",Toast.LENGTH_SHORT).show() }
-                }
-            })
-        }
         box.addView(Button(this).apply { text="Menüyü kapat"; setOnClickListener { togglePanel() } })
         panel=box
         val p=params(270,WindowManager.LayoutParams.WRAP_CONTENT).apply {
