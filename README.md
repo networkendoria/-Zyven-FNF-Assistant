@@ -1,15 +1,19 @@
 # Zyven FNF Assistant
 
-## Version 0.2.2 — install compatibility build
+## Version 0.3.0 — game profile foundation
 
-This build deliberately restores the same permission profile used by 0.1.1, which removed the AccessibilityService declaration after Play Protect blocked the earlier APK.
+Added selectable and locally saved game profiles:
+- Official Friday Night Funkin' Android release from Google Play (V-Slice).
+- Psych Engine 0.7.3.
+- V-Slice-based mods.
 
-Included:
+The profile selector is an initial compatibility layer. It does not yet mean note detection or automatic input is supported for every profile.
+
+Still included:
 - Movable purple floating bubble.
 - User-approved screen capture.
-- No AccessibilityService and no automated taps.
-- Screen-frame processing is disabled in this compatibility build.
+- No AccessibilityService and no automated taps in this build.
 
-This change addresses the known permission difference from 0.1.1. It cannot guarantee Play Protect approval; Play Protect decisions are made by Google and may depend on the exact warning, app reputation, and device state. Do not disable or bypass Play Protect.
+Next implementation stage: profile-specific lane/receptor detection, then Smart Input and Auto Play. These features must be tested against actual gameplay captures for each profile; support is not claimed before that testing.
 
-GitHub Actions produces a debug APK. A release build requires a persistent signing key configured as repository Actions secrets. A release signature alone does not guarantee Play Protect approval.
+Do not disable or bypass Android/Google security protections. Re-enabling automated input may require Android Accessibility permission and can trigger additional security review.
