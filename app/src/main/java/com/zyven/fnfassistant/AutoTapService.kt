@@ -8,13 +8,24 @@ import android.view.accessibility.AccessibilityEvent
 object AutoTapState {
     @Volatile var enabled: Boolean = false
     @Volatile var serviceConnected: Boolean = false
-    private val lastTapAt = LongArray(4)
+    private val insideHitZone = BooleanArray(4)
 
     @Synchronized
-    fun shouldTap(lane: Int, now: Long): Boolean {
-        if (lane !in 1..4 || now - lastTapAt[lane - 1] < 135L) return false
-        lastTapAt[lane - 1] = now
-        return true
+    fun newlyReachedHitZone(candidates: List<NoteCandidate>): List<Int> {
+        val near = BooleanArray(4)
+        candidates.filter { it.lane in 1..4 && it.centerY >= 0.78f }
+            .forEach { near[it.lane - 1] = true }
+        val taps = ArrayList<Int>(4)
+        for (index in 0..3) {
+            if (near[index] && !insideHitZone[index]) taps.add(index + 1)
+            insideHitZone[index] = near[index]
+        }
+        return taps
+    }
+
+    @Synchronized
+    fun resetHitZone() {
+        insideHitZone.fill(false)
     }
 }
 
@@ -26,10 +37,7 @@ class AutoTapService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) = Unit
-
-    override fun onInterrupt() {
-        AutoTapState.enabled = false
-    }
+    override fun onInterrupt() { AutoTapState.enabled = false }
 
     override fun onDestroy() {
         AutoTapState.enabled = false
