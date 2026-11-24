@@ -35,7 +35,7 @@ class MainActivity : Activity() {
             gravity = Gravity.CENTER
         })
         root.addView(TextView(this).apply {
-            text = "Sürüm 0.3.2 — oyuncu şeridi algılama"
+            text = "Sürüm 0.4.0 — nota algılama + isteğe bağlı dokunma"
             textSize = 15f
             setTextColor(0xFFD2CEDA.toInt())
             gravity = Gravity.CENTER
@@ -64,7 +64,7 @@ class MainActivity : Activity() {
         }
         root.addView(selector)
         root.addView(TextView(this).apply {
-            text = "Yüklediğin gameplay kaydındaki oyuncu tarafı dört nota şeridine göre tarama yapılır. Algılama deneyseldir; otomatik dokunma kapalıdır."
+            text = "Dokunma, algılanan nota oyuncu çizgisine yaklaştığında gönderilir. Algılama deneyseldir; yanlış nota algısı yanlış dokunuşa neden olabilir."
             textSize = 12f
             setTextColor(0xFFBDB5C7.toInt())
             setPadding(0, 8, 0, 18)
@@ -85,9 +85,30 @@ class MainActivity : Activity() {
             if (Settings.canDrawOverlays(this)) startService(Intent(this, BubbleService::class.java))
             else startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
         }
+        addAction(root, "Erişilebilirlik ayarlarını aç") {
+            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+        }
+        addAction(root, "Otomatik dokunmayı aç / kapat") {
+            if (!AutoTapState.serviceConnected) {
+                android.widget.Toast.makeText(this, "Önce Erişilebilirlik ayarlarından Zyven FNF otomatik dokunmayı etkinleştir.", android.widget.Toast.LENGTH_LONG).show()
+                startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            } else {
+                AutoTapState.enabled = !AutoTapState.enabled
+                val state = if (AutoTapState.enabled) "AÇIK" else "KAPALI"
+                android.widget.Toast.makeText(this, "Otomatik dokunma: $state", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
         addAction(root, "Balonu kapat") { stopService(Intent(this, BubbleService::class.java)) }
-        addAction(root, "Ekran analizini durdur") { stopService(Intent(this, CaptureService::class.java)) }
+        addAction(root, "Ekran analizini durdur") {
+            AutoTapState.enabled = false
+            stopService(Intent(this, CaptureService::class.java))
+        }
         setContentView(root)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Keep the app's toggle off until the user explicitly enables it.
     }
 
     private fun addAction(root: LinearLayout, label: String, action: () -> Unit) {
