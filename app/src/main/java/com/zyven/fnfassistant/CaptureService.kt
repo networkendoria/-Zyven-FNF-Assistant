@@ -32,7 +32,11 @@ class CaptureService : Service() {
         val metrics = resources.displayMetrics
         reader = ImageReader.newInstance(metrics.widthPixels, metrics.heightPixels, PixelFormat.RGBA_8888, 2)
         reader?.setOnImageAvailableListener({ source ->
-            source.acquireLatestImage()?.close()
+            val frame = source.acquireLatestImage()
+            if (frame != null) {
+                try { AutoPlayEngine.process(frame) } catch (_: Exception) { }
+                finally { frame.close() }
+            }
         }, null)
         virtualDisplay = projection?.createVirtualDisplay(
             "ZyvenFNFScreen", metrics.widthPixels, metrics.heightPixels, metrics.densityDpi,
@@ -47,13 +51,12 @@ class CaptureService : Service() {
         }
     }
     private fun notification(): Notification {
-        val builder = if (Build.VERSION.SDK_INT >= 26) Notification.Builder(this, "zyven_capture")
-            else Notification.Builder(this)
+        val builder = if (Build.VERSION.SDK_INT >= 26) Notification.Builder(this, "zyven_capture") else Notification.Builder(this)
         return builder.setContentTitle("Zyven FNF Assistant")
-            .setContentText("Ekran yakalama etkin — durdurmak için uygulamayı kapat")
-            .setSmallIcon(android.R.drawable.ic_menu_view).setOngoing(true).build()
+            .setContentText("Ekran analizi etkin").setSmallIcon(android.R.drawable.ic_menu_view).setOngoing(true).build()
     }
     override fun onDestroy() {
+        AutoPlayEngine.enabled = false
         virtualDisplay?.release(); reader?.close(); projection?.stop(); super.onDestroy()
     }
     override fun onBind(intent: Intent?): IBinder? = null
