@@ -1,19 +1,17 @@
 # Zyven FNF Assistant
 
-## Version 0.3.0 — game profile foundation
+## Version 0.3.1 — experimental visual note detection
 
-Added selectable and locally saved game profiles:
-- Official Friday Night Funkin' Android release from Google Play (V-Slice).
-- Psych Engine 0.7.3.
-- V-Slice-based mods.
+Added a first-pass real-time screen detector:
+- Reads frames only after the Android screen-capture consent flow.
+- Scans the play area for saturated colored clusters.
+- Reports experimental candidates across four horizontal screen regions.
+- Shows live candidate counts in the floating control panel.
 
-The profile selector is an initial compatibility layer. It does not yet mean note detection or automatic input is supported for every profile.
+Limitations:
+- This is a color-cluster heuristic, not a trained FNF arrow recognizer.
+- Background effects, UI colors, skins, and HUD layouts can cause false positives or missed notes.
+- The four regions are provisional and require calibration against real gameplay screenshots for each profile.
+- No automatic taps or AccessibilityService are included.
 
-Still included:
-- Movable purple floating bubble.
-- User-approved screen capture.
-- No AccessibilityService and no automated taps in this build.
-
-Next implementation stage: profile-specific lane/receptor detection, then Smart Input and Auto Play. These features must be tested against actual gameplay captures for each profile; support is not claimed before that testing.
-
-Do not disable or bypass Android/Google security protections. Re-enabling automated input may require Android Accessibility permission and can trigger additional security review.
+Profiles: official Android/V-Slice, Psych Engine 0.7.3, and V-Slice-based mods. Profile selection is saved locally; profile-specific detector calibration is not yet implemented.
