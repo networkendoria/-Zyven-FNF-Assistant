@@ -25,18 +25,16 @@ class MainActivity : Activity() {
             text = "ZYVEN FNF ASSISTANT"; textSize = 23f; setTextColor(-1); gravity = Gravity.CENTER
         })
         root.addView(TextView(this).apply {
-            text = "Sürüm 0.2.1\nDeneysel dört şeritli nota algılama. Otomatik mod varsayılan olarak kapalıdır. Algılama oyun düzenine göre kalibrasyon gerektirir."
+            text = "Sürüm 0.2.2 — kurulum uyumluluk sürümü\nYüzen kontrol balonu ve kullanıcı onaylı ekran yakalama içerir. Bu sürümde otomatik dokunma ve nota algılama kapalıdır."
             textSize = 15f; setTextColor(0xFFD2CEDA.toInt()); gravity = Gravity.CENTER; setPadding(0, 22, 0, 22)
         })
         addAction(root, "Yüzen pencere iznini ver") {
             startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
         }
-        addAction(root, "Dokunma erişilebilirliğini aç") { startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) }
         addAction(root, "Ekran yakalamayı başlat") {
             val manager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
             startActivityForResult(manager.createScreenCaptureIntent(), captureRequest)
         }
-        addAction(root, "Algılamayı aç / kapat") { AutoPlayEngine.enabled = !AutoPlayEngine.enabled }
         addAction(root, "Kontrol balonunu aç") {
             if (Settings.canDrawOverlays(this)) startService(Intent(this, BubbleService::class.java))
             else startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
