@@ -107,7 +107,7 @@ class BubbleService : Service() {
         }
         box.addView(detectionText)
         box.addView(TextView(this).apply {
-            text="Deneysel algılama. Otomatik dokunma: " + if (AutoTapState.enabled) "AÇIK" else "KAPALI"
+            text="Deneysel algılama. Otomatik dokunma yok."
             textSize=11f
             setTextColor(0xFFB7AFC1.toInt())
             setPadding(4,4,4,10)

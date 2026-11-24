@@ -36,6 +36,13 @@ class CaptureService : Service() {
         }
         val manager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
         projection = manager.getMediaProjection(code, data)
+        // Android 14+ requires a registered callback before createVirtualDisplay();
+        // it is also how we learn that the user stopped sharing from the system UI.
+        projection?.registerCallback(object : MediaProjection.Callback() {
+            override fun onStop() {
+                stopSelf()
+            }
+        }, null)
         val metrics = resources.displayMetrics
         reader = ImageReader.newInstance(metrics.widthPixels, metrics.heightPixels, PixelFormat.RGBA_8888, 2)
         reader?.setOnImageAvailableListener({ source ->
