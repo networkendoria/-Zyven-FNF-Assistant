@@ -2,10 +2,11 @@ package com.zyven.fnfassistant
 
 import android.media.Image
 
-// Compatibility build: screen frames are received but no automatic input is generated.
+// Experimental visual detection only. No touch events are generated.
 object AutoPlayEngine {
-    @Volatile var enabled = false
+    @Volatile var enabled = true
+
     fun process(image: Image) {
-        // Intentionally no-op until a trusted distribution and input-control design are ready.
+        if (enabled) NoteDetector.analyze(image)
     }
 }
