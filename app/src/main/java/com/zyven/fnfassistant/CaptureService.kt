@@ -21,6 +21,7 @@ class CaptureService : Service() {
     private var reader: ImageReader? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        AutoPlayEngine.enabled = true
         createChannel()
         startForeground(71, notification())
         val code = intent?.getIntExtra(EXTRA_RESULT_CODE, 0) ?: 0
