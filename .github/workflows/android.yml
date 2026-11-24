@@ -28,6 +28,19 @@ jobs:
       - name: Build debug APK
         run: gradle assembleDebug
 
+      - name: Verify debug APK signature and package
+        shell: bash
+        run: |
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -n 1)"
+          AAPT="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -n 1)"
+          test -n "$APKSIGNER"
+          test -n "$AAPT"
+          "$APKSIGNER" verify --verbose "$APK"
+          "$AAPT" dump badging "$APK" | grep -E "^(package: name='com.zyven.fnfassistant'|sdkVersion:'26'|targetSdkVersion:'35')"
+          sha256sum "$APK"
+          stat -c 'APK size: %s bytes' "$APK"
+
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
