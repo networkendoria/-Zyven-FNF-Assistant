@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Zyven FNF Assistant</string>
+    <string name="accessibility_description">Yalnızca kontrol balonundan Otomatik basma açıkken FNF nota şeritlerine kısa dokunuşlar yapar. Pencere içeriğini okumaz, olayları dinlemez.</string>
+    <string name="accessibility_service_label">Zyven FNF otomatik dokunma</string>
 </resources>

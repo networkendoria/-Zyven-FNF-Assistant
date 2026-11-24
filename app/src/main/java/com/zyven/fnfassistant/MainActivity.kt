@@ -43,7 +43,7 @@ class MainActivity : Activity() {
             gravity = Gravity.CENTER
         })
         root.addView(TextView(this).apply {
-            text = "Sürüm 0.5.1 — görsel nota algılama"
+            text = "Sürüm 0.6.0 — nota algılama + otomatik basma"
             textSize = 15f
             setTextColor(0xFFD2CEDA.toInt())
             gravity = Gravity.CENTER
@@ -72,7 +72,7 @@ class MainActivity : Activity() {
         }
         root.addView(selector)
         root.addView(TextView(this).apply {
-            text = "Ekran görüntüsü izninle analiz edilir. Uygulama başka uygulamalara otomatik dokunmaz. Nota algılama deneyseldir."
+            text = "Ekran görüntüsü izninle analiz edilir. Otomatik basma varsayılan olarak kapalıdır; yalnızca sen erişilebilirlik servisini etkinleştirip kontrol balonundan açtığında FNF şeritlerine dokunur. Nota algılama ve basma deneyseldir."
             textSize = 12f
             setTextColor(0xFFBDB5C7.toInt())
             setPadding(0, 8, 0, 18)
@@ -84,6 +84,12 @@ class MainActivity : Activity() {
         }
         addAction(root, "Yüzen pencere iznini ver") {
             startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
+        }
+        addAction(root, "Erişilebilirlik ayarlarını aç") {
+            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+        }
+        addAction(root, "Uygulama bilgisi (kısıtlı ayar için)") {
+            startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
         }
         addAction(root, "Ekran yakalamayı başlat") {
             val manager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager

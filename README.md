@@ -1,15 +1,27 @@
 # Zyven FNF Assistant
 
-## Version 0.3.2 — player-lane calibration
+Sürüm 0.6.0 — FNF ekranını yakalar, dört şeritteki notaları algılar, ekranda gösterir ve istenirse şeritlere otomatik basar.
 
-Detector calibration updated using the user's supplied 1600x720 gameplay recording:
-- Player-side receptor columns are calibrated at normalized horizontal positions 0.2875, 0.4125, 0.6000, and 0.7250.
-- Scans saturated note-colored components rather than dividing the entire display into four equal vertical strips.
-- Filters components by approximate arrow-head / sustain-note geometry and reports candidates per player lane.
-- Floating panel reports lane candidate counts.
+## Nasıl çalışır
+- **Ekran yakalama:** MediaProjection (`CaptureService`), analiz ayrı bir iş parçacığında çalışır.
+- **Nota algılama:** `NoteDetector` doygun renkli nota şekillerini bulur ve dört oyuncu şeridine eşler.
+- **Zamanlama:** `TapPlanner` her notayı kareden kareye takip eder, hızını ölçer ve vuruş çizgisine varacağı anı hesaplar.
+- **Otomatik basma:** `AutoTapService` (AccessibilityService, yalnızca `dispatchGesture`). Pencere içeriğini okumaz, olayları dinlemez.
+- **Kontrol balonu:** aç/kapat, vuruş çizgisi, erken basma süresi, rehber katmanı ve test dokunuşu.
 
-Limitations:
-- Experimental color/shape heuristic, not a trained arrow classifier.
-- Character art, effects, and some HUD elements can still create false positives.
-- Calibration is based on the supplied recording and may need adjustment for different resolutions, mods, and HUD layouts.
-- No automated taps or AccessibilityService are included.
+## Güvenlik
+- Otomatik basma her açılışta **kapalı** başlar; yalnızca balon menüsünden açılır.
+- 20 saniye nota görünmezse kendiliğinden kapanır; balon, ekran yakalama veya erişilebilirlik servisi kapanınca da kapanır.
+
+## İlk kurulum
+1. Yüzen pencere iznini ver, ekran yakalamayı başlat, kontrol balonunu aç.
+2. Ayarlar → Erişilebilirlik → İndirilen uygulamalar → Zyven FNF otomatik dokunma. Engellenirse: Uygulama bilgisi → sağ üst üç nokta → "Kısıtlı ayarlara izin ver".
+3. Oyunu yatay aç, balon menüsünde rehber çizgisini ve halkaları oyundaki alıcı oklara hizala (Çizgi ▲▼).
+4. "Test dokunuşu" ile dört şeride sırayla dokunulduğunu kontrol et, sonra "Otomatik basma"yı aç.
+
+## Sınırlamalar
+- Uzun (basılı tutulan) notalarda yalnızca başına kısa dokunuş yapılır, basılı tutma yoktur.
+- Renk/şekil tabanlı deneysel algılama; karakter çizimleri ve efektler yanlış algılama üretebilir.
+- Şerit konumları 1600x720 bir kayda göre kalibre edilmiştir.
+- Aşağı kaydırma (downscroll) desteklenmez.
+- Gecikme (yakalama + dokunuş) cihaza bağlıdır; "Erken" ayarıyla telafi edilir.
