@@ -1,14 +1,15 @@
 # Zyven FNF Assistant
 
-Personal Android prototype for the original Friday Night Funkin' Android app.
+Android prototype for Friday Night Funkin'.
 
-## Version 0.1.1
-- Movable purple floating bubble and control panel.
-- User-approved MediaProjection capture service.
-- Accessibility gesture service intentionally omitted from this install-test build.
-- GitHub Actions debug APK build.
+## Version 0.2.0
+- Movable floating Z bubble.
+- MediaProjection screen capture; frames are processed locally and immediately discarded.
+- Experimental four-lane color detector with configurable lane fractions and hit line in AutoPlayEngine.kt.
+- Optional AccessibilityService gesture dispatch; user must enable it explicitly in Android Settings.
+- Automatic detection is OFF by default.
 
-## Important limitation
-This build is for verifying installation, overlay permission, and screen-capture permission. It does not recognize notes or automatically press lanes. The Accessibility service was removed from this build because Play Protect blocked the previous sideloaded APK after detecting sensitive accessibility capabilities. A future build that needs gesture automation must be distributed through a trusted, verifiable route and tested before use.
+## Limitations
+This is an experimental detector, not a validated FNF bot. Generic lane positions and hit line may not match every FNF Android build, aspect ratio, mod, or HUD layout. False taps and missed notes are possible. Play Protect may warn because gesture automation requires Accessibility access; do not disable Play Protect to bypass a warning.
 
-Captured frames are immediately discarded. No screenshots are saved or uploaded.
+No captured frames are saved or uploaded.
