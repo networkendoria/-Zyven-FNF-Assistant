@@ -85,7 +85,6 @@ class MainActivity : Activity() {
             if (Settings.canDrawOverlays(this)) startService(Intent(this, BubbleService::class.java))
             else startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
         }
-        }
         addAction(root, "Balonu kapat") { stopService(Intent(this, BubbleService::class.java)) }
         addAction(root, "Ekran analizini durdur") {
             stopService(Intent(this, CaptureService::class.java))
