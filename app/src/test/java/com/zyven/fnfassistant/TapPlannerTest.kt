@@ -20,7 +20,11 @@ class TapPlannerTest {
         }
 
     /** Feeds a frame every 50 ms (0..1200 ms) and returns (lane, absolute tap time in ms). */
-    private fun simulate(vararg sims: Sim, stationary: Boolean = false): List<Pair<Int, Long>> {
+    private fun simulate(
+        vararg sims: Sim,
+        stationary: Boolean = false,
+        line: Float = hitY
+    ): List<Pair<Int, Long>> {
         val planner = TapPlanner()
         val taps = ArrayList<Pair<Int, Long>>()
         var t = 0L
@@ -31,7 +35,7 @@ class TapPlannerTest {
                 // The detector only reports notes between 10% and 84% of the screen height.
                 if (y in 0.10f..0.84f) frame.add(candidate(sim, y))
             }
-            for (plan in planner.update(frame, t, hitY, lead)) taps.add(plan.lane to (t + plan.delayMs))
+            for (plan in planner.update(frame, t, line, lead)) taps.add(plan.lane to (t + plan.delayMs))
             t += 50L
         }
         return taps
@@ -63,6 +67,14 @@ class TapPlannerTest {
         val times = taps.map { it.second.toDouble() }.sorted()
         assertEquals(crossingMs(0.80f) - lead, times[0], 3.0)
         assertEquals(crossingMs(1.00f) - lead, times[1], 3.0)
+    }
+
+    @Test
+    fun noteMovingDownToALowHitLineIsTappedOnTime() {
+        // y(t) = 0.12 + 0.001 t reaches the line at 0.88 after (0.88 - 0.12) / 0.001 = 760 ms.
+        val taps = simulate(Sim(lane = 2, y0 = 0.12f, dir = 1f), line = 0.88f)
+        assertEquals(1, taps.size)
+        assertEquals(760.0 - lead, taps[0].second.toDouble(), 3.0)
     }
 
     @Test

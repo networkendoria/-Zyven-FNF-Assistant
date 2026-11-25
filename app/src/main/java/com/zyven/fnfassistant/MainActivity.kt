@@ -43,7 +43,7 @@ class MainActivity : Activity() {
             gravity = Gravity.CENTER
         })
         root.addView(TextView(this).apply {
-            text = "Sürüm 0.6.0 — nota algılama + otomatik basma"
+            text = "Sürüm 0.6.1 — nota algılama + otomatik basma"
             textSize = 15f
             setTextColor(0xFFD2CEDA.toInt())
             gravity = Gravity.CENTER

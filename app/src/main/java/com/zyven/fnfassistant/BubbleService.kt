@@ -245,8 +245,10 @@ class BubbleService : Service() {
         }
         box.addView(valueText)
         box.addView(row(
-            smallButton("Çizgi ▲") { adjustLine(-0.005f) },
-            smallButton("Çizgi ▼") { adjustLine(0.005f) }
+            smallButton("▲▲") { adjustLine(-0.05f) },
+            smallButton("▲") { adjustLine(-0.005f) },
+            smallButton("▼") { adjustLine(0.005f) },
+            smallButton("▼▼") { adjustLine(0.05f) }
         ))
         box.addView(row(
             smallButton("Erken −") { adjustLead(-10) },
@@ -289,7 +291,7 @@ class BubbleService : Service() {
         setIfChanged(autoText, autoStatus())
         setIfChanged(
             valueText,
-            "Çizgi: ${"%.3f".format(AutoTapState.hitLineY)}  •  Erken: ${AutoTapState.leadMs} ms"
+            "Çizgi (▲▼ büyük/küçük adım): ${"%.3f".format(AutoTapState.hitLineY)}  •  Erken: ${AutoTapState.leadMs} ms"
         )
         setIfChanged(
             toggleButton,

@@ -9,7 +9,7 @@ import android.view.Display
 /** Shared auto-tap settings and status. Auto-tap is never persisted as "on": it always starts OFF. */
 object AutoTapState {
     const val HIT_LINE_MIN = 0.05f
-    const val HIT_LINE_MAX = 0.40f
+    const val HIT_LINE_MAX = 0.95f
     const val LEAD_MIN = 0
     const val LEAD_MAX = 250
 

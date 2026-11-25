@@ -1,6 +1,6 @@
 # Zyven FNF Assistant
 
-Sürüm 0.6.0 — FNF ekranını yakalar, dört şeritteki notaları algılar, ekranda gösterir ve istenirse şeritlere otomatik basar.
+Sürüm 0.6.1 — FNF ekranını yakalar, dört şeritteki notaları algılar, ekranda gösterir ve istenirse şeritlere otomatik basar.
 
 ## Nasıl çalışır
 - **Ekran yakalama:** MediaProjection (`CaptureService`), analiz ayrı bir iş parçacığında çalışır.
@@ -23,5 +23,5 @@ Sürüm 0.6.0 — FNF ekranını yakalar, dört şeritteki notaları algılar, e
 - Uzun (basılı tutulan) notalarda yalnızca başına kısa dokunuş yapılır, basılı tutma yoktur.
 - Renk/şekil tabanlı deneysel algılama; karakter çizimleri ve efektler yanlış algılama üretebilir.
 - Şerit konumları 1600x720 bir kayda göre kalibre edilmiştir.
-- Aşağı kaydırma (downscroll) desteklenmez.
+- Vuruş çizgisi ekranın %5–95'i arasında ayarlanır (▲▲/▼▼ büyük adım, ▲/▼ küçük adım). Aşağı kaydırma (downscroll) için çizgiyi alta indirmek denenebilir; planlayıcı yönden bağımsızdır ama telefonda denenmedi.
 - Gecikme (yakalama + dokunuş) cihaza bağlıdır; "Erken" ayarıyla telafi edilir.
